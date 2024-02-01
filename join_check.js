@@ -18,3 +18,4 @@ async function checkMemberShip(channel, userId, bot) {
 }
 
 module.exports.checkMemberShip = checkMemberShip;
+module.exports.inlineKeyboard = inlineKeyboard;
