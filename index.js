@@ -80,7 +80,7 @@ async function downloadVideo(chatId, url) {try {
   // Send a message to show the download progress
   const message = await bot.sendMessage(
     chatId,
-    `*Downloading video:* ${title}`,
+    `*Downloading video`,
     {
       
      
