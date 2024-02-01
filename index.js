@@ -65,7 +65,7 @@ async function searchVideo(chatId, videoName) {
 // Function to download a YouTube video and send it as an MP3 file
 async function downloadVideo(chatId, url) {try {
   // Get video information and thumbnail URL
-  bot.sendMessage(chatId, "جاري جلب المعلومات ...");
+  const message1 = await bot.sendMessage(chatId, "جاري جلب المعلومات ...");
   const videoInfo = await ytdl.getInfo(url);
   const title = videoInfo.player_response.videoDetails.title;
   
@@ -77,7 +77,7 @@ async function downloadVideo(chatId, url) {try {
     chatId,
     `*Downloading video:* ${title}`
   );
-
+bot.deleteMessage(chatId,message1.message_id)
   // Create a writable stream to store the video file
   const filePath = `${sanitizedTitle}-${chatId}.mp4`;
   const writeStream = fs.createWriteStream(filePath);
