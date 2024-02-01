@@ -65,6 +65,7 @@ async function searchVideo(chatId, videoName) {
 // Function to download a YouTube video and send it as an MP3 file
 async function downloadVideo(chatId, url) {try {
   // Get video information and thumbnail URL
+  bot.sendMessage(chatId, "جاري جلب المعلومات ...");
   const videoInfo = await ytdl.getInfo(url);
   const title = videoInfo.player_response.videoDetails.title;
   
@@ -143,10 +144,10 @@ bot.onText(/\يوت/, async (msg) => {
   const chatId = msg.chat.id;
   const videoName = msg.text.split(" ")[1];
 
-  if (!(await checkMemberShip(channelId, chatId, bot))) {
-    console.log("joined");
-  return;
-  }
+  // if (!(await checkMemberShip(channelId, chatId, bot))) {
+  //   console.log("joined");
+  // return;
+  // }
   if (videoName) {
     searchVideo(chatId, videoName);
   } else {
@@ -156,10 +157,10 @@ bot.onText(/\يوت/, async (msg) => {
 
 bot.onText(/\/start/,async (msg) => {
   const chatId = msg.chat.id;
-  if (!(await checkMemberShip(channelId, chatId, bot))) {
-    console.log("joined");
-  return;
-  }
+  // if (!(await checkMemberShip(channelId, chatId, bot))) {
+  //   console.log("joined");
+  // return;
+  // }
 
   // Send a message with the introduction and instructions
   bot.sendMessage(
