@@ -27,6 +27,7 @@ const bot = new TelegramBot(token, { polling: true });
 // Function to search for a YouTube video by name
 async function searchVideo(chatId, videoName) {
 
+
   youtube.search.list({
     part: 'snippet',
     q: videoName, // Your search query
@@ -34,13 +35,20 @@ async function searchVideo(chatId, videoName) {
   }, (err, data) => {
     if (err) {
       console.error('Error:', err);
-      bot.sendMessage(chatId, 'data.data.items[0].id.videoId');
+      bot.sendMessage(chatId, `Error: ${err}`);
     } else {
       console.log(data.data);
-      downloadVideo(chatId, `https://www.youtube.com/watch?v=${data.data.items[0].id.videoId}`);
-      console.log('Videos:', data.items);
+      console.log(data.data.items);
+  
+      if (data.data.items.length > 0) {
+        downloadVideo(chatId, `https://www.youtube.com/watch?v=${data.data.items[0].id.videoId}`);
+        console.log('Videos:', data.data.items);
+      } else {
+        console.log('No search results found.');
+      }
     }
   });
+  
   // try {
   //   const filters = await ytsr.getFilters(videoName);
   //   const filter = filters.get('Type').get('Video');
@@ -164,14 +172,16 @@ await bot.deleteMessage(chatId, message1.message_id);
 // Listen for the /yt command
 bot.onText(/\يوت/, async (msg) => {
   const chatId = msg.chat.id;
-  const videoName = msg.text.split(" ")[1];
-
+  const videoNames = msg.text.split(" ");
+   videoNames.pop("يوت");
+  
+   const videoName = videoNames;
   // if (!(await checkMemberShip(channelId, chatId, bot))) {
   //   console.log("joined");
   // return;
   // }
   if (videoName) {
-    searchVideo(chatId, videoName);
+    searchVideo(chatId, videoName.join(" "));
   } else {
     bot.sendMessage(chatId, "Please provide a video name.");
   }
